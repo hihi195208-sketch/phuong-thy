@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trang cá nhân — Thành viên nhóm </title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root{
+      --pastel-yellow: #fffacd; 
+      --accent: #ffd700;       
+      --text-dark: #6e5f00;     
+      --card-bg: rgba(255,255,255,0.7);
+      --glass-blur: 10px;
+      --max-width: 800px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter,system-ui,Arial,sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:var(--pastel-yellow); 
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Ảnh nền được chèn bằng thẻ <img> */
+    .background-image-fixed {
+        position: absolute;
+        inset: 0;
+        z-index: 0; 
+        width: 100%;
+        height: 100vh;
+        object-fit: cover; 
+        
+        /* ĐỘ MỜ 4px */
+        filter: blur(4px) brightness(0.95);
+        transform: scale(1.05);
+    }
+    
+    /* Card giới thiệu (Profile Card) */
+    .card{
+      position:relative;
+      z-index:1; 
+      max-width:var(--max-width);
+      width:100%;
+      background:linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,255,255,0.65));
+      border-radius:20px;
+      padding:25px;
+      box-shadow:0 15px 40px rgba(180,150,50,0.2);
+      backdrop-filter: blur(var(--glass-blur));
+      border:1px solid rgba(255,255,255,0.4);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+
+    /* Ảnh đại diện */
+    .profile-pic-area{
+      width:150px;
+      height:150px;
+      border-radius:50%;
+      overflow:hidden;
+      margin-bottom:20px;
+      border:5px solid var(--accent);
+      box-shadow:0 0 0 8px rgba(255, 215, 0, 0.2);
+      
+      /* VỊ TRÍ ẢNH PROFILE */
+      background-image: url('https://i.pinimg.com/736x/dc/8e/0e/dc8e0ea7a7e78877215668113f7c4917.jpg'); 
+      background-size: cover;
+      background-position: center;
+    }
+
+    .profile-pic-area img {
+        display: none; 
+    }
+
+    .name-title{
+      margin-bottom:20px;
+    }
+
+    .name{
+      font-size:30px;
+      font-weight:700;
+      color:var(--text-dark);
+      margin:0;
+    }
+
+    .title{
+      font-size:16px;
+      font-weight:400;
+      color:#b8860b;
+      margin-top:4px;
+    }
+
+    /* Khu vực thông tin chi tiết */
+    .details{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:15px;
+      width:100%;
+      max-width:500px;
+      margin-top:10px;
+      text-align:left;
+      margin-bottom: 25px; /* Thêm khoảng cách cho nút Quay lại */
+    }
+
+    .detail-item{
+      display:flex;
+      align-items:flex-start;
+      gap:15px;
+      padding:10px 15px;
+      background:rgba(255,255,255,0.6);
+      border-radius:12px;
+      box-shadow:0 2px 5px rgba(0,0,0,0.05);
+      border-left:4px solid var(--accent);
+    }
+
+    .icon{
+      color:var(--accent);
+      font-size:18px;
+      min-width:20px;
+      padding-top:2px;
+    }
+
+    .content-area{
+      flex:1;
+    }
+
+    .label{
+      font-weight:600;
+      color:#a0522d;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+      margin-bottom:2px;
+    }
+
+    .value{
+      color:var(--text-dark);
+      font-size:15px;
+      font-weight:400;
+      line-height:1.4;
+    }
+    
+    .quote-style{
+      font-style:italic;
+      font-weight:500;
+    }
+    
+    .email-link{
+        color: var(--text-dark);
+        text-decoration: none;
+    }
+
+    @media (min-width: 600px) {
+      .details {
+        grid-template-columns: 1fr 1fr;
+      }
+      .detail-item:last-child {
+        grid-column: 1 / span 2; 
+      }
+    }
+    
+    /* === NÚT QUAY LẠI TRANG CHÍNH === */
+    .back-button {
+      display: inline-block;
+      padding: 10px 25px;
+      background-color: var(--accent); /* Màu vàng */
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 50px;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+      margin-top: 10px;
+    }
+
+    .back-button:hover {
+        background-color: #ffc400; /* Vàng đậm hơn khi hover */
+        transform: translateY(-2px);
+    }
+
+    /* === HIỆU ỨNG STICKER BAY BAY ĐÃ TINH CHỈNH === */
+    .sticker{
+      position:absolute;
+      width:70px; 
+      opacity:0.9;
+      animation:fly 12s linear infinite; 
+    }
+
+    /* Sticker 1: Trên cùng bên trái */
+    .sticker:nth-child(1){top:10%;left:5%;animation-duration:14s} 
+    /* Sticker 2: Dưới cùng bên phải */
+    .sticker:nth-child(2){bottom:10%;right:5%;top:auto;left:auto;animation-duration:11s} 
+    /* Sticker 3: Giữa bên trái */
+    .sticker:nth-child(3){top:50%;left:10%;animation-duration:13s}
+    /* Sticker 4: Giữa bên phải */
+    .sticker:nth-child(4){top:20%;right:15%;left:auto;animation-duration:12s}
+    /* Sticker 5: Dưới cùng bên trái */
+    .sticker:nth-child(5){bottom:20%;left:15%;top:auto;animation-duration:15s} 
+
+    @keyframes fly{
+      0%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-40px) rotate(10deg)} /* Giảm độ nghiêng */
+      100%{transform:translateY(0) rotate(0deg)}
+    }
+    /* =================== */
+  </style>
+</head>
+
+<body>
+
+  <img 
+    src="https://i.pinimg.com/1200x/a7/f9/e0/a7f9e0f98732cf21e2e73f3f42569a26.jpg" 
+    class="background-image-fixed" 
+    alt="Ảnh nền pastel"
+  >
+
+  <img src="https://i.pinimg.com/736x/5d/db/d4/5ddbd4f8007c44f1acfdeb2380a8f622.jpg" class="sticker">
+  <img src="https://i.pinimg.com/1200x/f3/8f/20/f38f206e6ee3ab664b511a9298eb00de.jpg" class="sticker">
+  <img src="https://i.pinimg.com/736x/bf/b8/3d/bfb83daceaebd1534394170b5f23ff65.jpg" class="sticker">
+  <img src="https://i.pinimg.com/1200x/c6/da/00/c6da0044fa3a1faa64c9082dcc4deaf1.jpg" class="sticker">
+  <img src="https://i.pinimg.com/736x/88/c8/0a/88c80a829320637e0fd54ff0f01248ac.jpg" class="sticker">
+  
+  <div class="card">
+    <div class="profile-pic-area">
+    </div>
+
+    <div class="name-title">
+      <h1 class="name">Nguyễn Phương Thy</h1>
+      <p class="title">Trưởng nhóm</p>
+    </div>
+
+    <div class="details">
+
+      <div class="detail-item">
+        <div class="icon"><i class="fa-solid fa-cake-candles"></i></div>
+        <div class="content-area">
+          <div class="label">Ngày sinh</div>
+          <div class="value">19/5/2008</div>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <div class="icon"><i class="fa-solid fa-heart"></i></div>
+        <div class="content-area">
+          <div class="label">Sở thích</div>
+          <div class="value">Đọc sách, đi du lịch</div>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <div class="icon"><i class="fa-solid fa-music"></i></div>
+        <div class="content-area">
+          <div class="label">Âm nhạc</div>
+          <div class="value">Bài hát: Còn gì đẹp hơn - Nguyễn Hùng</div>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+        <div class="content-area">
+          <div class="label">Liên hệ</div>
+          <div class="value"><a href="mailto:phuongthy195@gmail.com" class="email-link">phuongthy195@gmail.com</a></div>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="icon"><i class="fa-solid fa-quote-left"></i></div>
+        <div class="content-area">
+          <div class="label">Châm ngôn sống</div>
+          <div class="value quote-style">"Hãy sống nhưu thể ngày mai bạn không còn tồn tại."</div>
+        </div>
+      </div>
+
+    </div>
+    
+    <a href="https://hihi195208-sketch.github.io/webcuanhomsau.github.io/" class="back-button">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại Trang chính
+    </a>
+    
+  </div>
+
+</body>
+</html>
